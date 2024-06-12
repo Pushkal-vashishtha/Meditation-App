@@ -16,7 +16,7 @@ const NatureMeditate = () => {
         <Text className="text-indigo-100 text-xl font-medium ">Start your meditation practice today</Text>
         </View>
       </AppGradient>
-      <View style={{ flex: 1, padding: 16 , marginTop:-500 }}>
+      <View style={{ flex: 1, padding: 16 , marginTop:-450 }}>
         <FlatList 
         data={MEDITATION_DATA} 
         className="mb-5"
