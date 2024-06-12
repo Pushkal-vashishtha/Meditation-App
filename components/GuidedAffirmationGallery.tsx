@@ -24,7 +24,7 @@ const GuidedAffirmationGallery = ({title,previews}:GuidedAffirmationGalleryProps
                 <Link href={`\affirmations/${item.id}`}asChild>
                     <Pressable>
                         <View className='h-36 w-32 rounded-md mr-4'>
-                            <Image source = {item.image} resizeMethod='cover' className='w-full h-full'/>
+                            <Image source = {item.image} resizeMode='cover' className='w-full h-full'/>
                         </View>
                     </Pressable>
                 </Link>
