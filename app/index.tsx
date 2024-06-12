@@ -4,7 +4,10 @@ import beachImage from '@/assets/meditation-images/beach.webp';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 import CustomButton from '@/components/CustomButton';
+import { useRouter } from 'expo-router';
 const App = () => {
+
+  const router = useRouter();
   return (
     <View className='flex-1'>
       <ImageBackground
@@ -23,7 +26,7 @@ const App = () => {
             </View>
             <StatusBar style="dark" />
             <View>
-              <CustomButton onPress={()=>console.log("Get Started")}
+              <CustomButton onPress={()=>router.push('/test')}
                 title="Get Started"/>
             </View>
           </SafeAreaView>
