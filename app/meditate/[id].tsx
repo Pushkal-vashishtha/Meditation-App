@@ -1,5 +1,5 @@
 import { View, Text, ImageBackground, Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import meditation_Images from "@/constants/meditation-images";
 import AppGradient from "@/components/AppGradient";
 import { router, useLocalSearchParams } from "expo-router";
@@ -7,11 +7,13 @@ import { AntDesign } from "@expo/vector-icons";
 import CustomButton from "@/components/CustomButton";
 import { Audio } from "expo-av";
 import { MEDITATION_DATA, AUDIO_FILES } from "@/constants/MeditationData";
+import { TimerContext } from "@/context/timerContext";
 
 const Meditate = () => {
   const { id } = useLocalSearchParams();
 
-  const [secRemaining, setSecRemaining] = useState(10);
+ // const [secRemaining, setSecRemaining] = useState(10);
+ const {duration:secRemaining, setDuration} = useContext(TimerContext)
   const [isMeditating, setISMeditaing] = useState(false);
   const [audioSound, setSound] = useState<Audio.Sound>();
   const [isAudio, setAudio] = useState(false);
@@ -24,7 +26,7 @@ const Meditate = () => {
     }
     if (isMeditating) {
       timerId = setTimeout(() => {
-        setSecRemaining(secRemaining - 1);
+        setDuration(secRemaining - 1);
       }, 1000);
     }
 
@@ -35,12 +37,13 @@ const Meditate = () => {
 
   useEffect(()=>{
     return ()=>{
+      setDuration(10);
       audioSound?.unloadAsync();
     }
   },[audioSound]);
 
   const toggleMeditationSessionStatus = async () => {
-    if (secRemaining === 0) setSecRemaining(10);
+    if (secRemaining === 0) setDuration(10);
 
     setISMeditaing(!isMeditating);
 
@@ -67,7 +70,11 @@ const Meditate = () => {
     setSound(sound);
     return sound;
   };
-
+  
+  const handleAdjustDuration =()=>{
+    if(isMeditating) toggleMeditationSessionStatus();
+    router.push('/(modal)/adjust-meditation-duration')
+  }
   const formatedTimeMinutes = String(Math.floor(secRemaining / 60)).padStart(
     2,
     "0"
@@ -96,10 +103,17 @@ const Meditate = () => {
             </View>
           </View>
           <View className="mb-5">
-            <CustomButton
-              title="Start Meditation"
-              onPress={toggleMeditationSessionStatus}
+          <CustomButton
+              title="Adjust Duration"
+              onPress={handleAdjustDuration}
+              
             />
+            <CustomButton
+              title={isMeditating ? "Stop":"Start Meditating"}
+              onPress={toggleMeditationSessionStatus}
+              containerStyles="mt-4"
+            />
+            
           </View>
         </AppGradient>
       </ImageBackground>
